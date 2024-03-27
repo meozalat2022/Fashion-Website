@@ -1,7 +1,8 @@
 import React from "react";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
 import { Link } from "react-router-dom";
 import Divider from "../../components/Divider";
+import { LoginUser } from "../../apicalls/users";
 
 const Login = () => {
   const rules = [
@@ -10,8 +11,18 @@ const Login = () => {
       message: "Field is Required",
     },
   ];
-  const onFinish = (values) => {
-    console.log(values);
+  const onFinish = async (values) => {
+    try {
+      const response = await LoginUser(values);
+      if (response.success) {
+        message.success(response.message);
+        localStorage.setItem("token", response.data);
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      message.error(error.message);
+    }
   };
   return (
     <div className="h-screen bg-primary flex justify-center items-center">

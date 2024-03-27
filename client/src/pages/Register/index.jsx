@@ -1,16 +1,26 @@
 import React from "react";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
 import { Link } from "react-router-dom";
 import Divider from "../../components/Divider";
+import { RegisterUser } from "../../apicalls/users";
+const rules = [
+  {
+    required: true,
+    message: "Field is Required",
+  },
+];
 const Register = () => {
-  const rules = [
-    {
-      required: true,
-      message: "Field is Required",
-    },
-  ];
-  const onFinish = (values) => {
-    console.log(values);
+  const onFinish = async (values) => {
+    try {
+      const response = await RegisterUser(values);
+      if (response.success) {
+        message.success(response.message);
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      message.error(error.message);
+    }
   };
   return (
     <div className="h-screen bg-primary flex justify-center items-center">
