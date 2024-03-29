@@ -21,3 +21,12 @@ export const LoginUser = async (payload) => {
     return error.message;
   }
 };
+// get current user
+export const GetCurrentUser = async () => {
+  try {
+    const response = await axiosInstance.get("/api/users/get-user");
+    return response.data;
+  } catch (error) {
+    return error.message;
+  }
+};
