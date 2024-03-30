@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 import Divider from "../../components/Divider";
 import { LoginUser } from "../../apicalls/users";
 import { useNavigate } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
+import { setLoader } from "../../redux/loaderSlice";
 const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const rules = [
     {
@@ -15,15 +17,19 @@ const Login = () => {
   ];
   const onFinish = async (values) => {
     try {
+      dispatch(setLoader(true));
       const response = await LoginUser(values);
+      dispatch(setLoader(false));
       if (response.success) {
         message.success(response.message);
         localStorage.setItem("token", response.data);
         navigate("/");
       } else {
+        dispatch(setLoader(false));
         throw new Error(response.message);
       }
     } catch (error) {
+      dispatch(setLoader(false));
       message.error(error.message);
     }
   };
@@ -48,13 +54,13 @@ const Login = () => {
             <Input type="password" placeholder="Password" />
           </Form.Item>
           <Button className="md-2" type="primary" htmlType="submit" block>
-            Register
+            Login
           </Button>
           <div className="mt-5 text-center">
             <span className="text-gray-500">
-              Don't have an account?{" "}
-              <Link className="text-primary hover:text-primary" to="/login">
-                Login
+              Already have an account?{" "}
+              <Link className="text-primary hover:text-primary" to="/register">
+                Register
               </Link>
             </span>
           </div>

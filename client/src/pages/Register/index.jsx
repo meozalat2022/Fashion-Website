@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import Divider from "../../components/Divider";
 import { RegisterUser } from "../../apicalls/users";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setLoader } from "../../redux/loaderSlice";
 const rules = [
   {
     required: true,
@@ -11,16 +13,24 @@ const rules = [
   },
 ];
 const Register = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const onFinish = async (values) => {
     try {
+      dispatch(setLoader(true));
       const response = await RegisterUser(values);
+      dispatch(setLoader(false));
       if (response.success) {
+        navigate("/login");
         message.success(response.message);
       } else {
+        dispatch(setLoader(false));
+
         throw new Error(response.message);
       }
     } catch (error) {
+      dispatch(setLoader(false));
+
       message.error(error.message);
     }
   };
