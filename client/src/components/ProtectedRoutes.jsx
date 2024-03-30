@@ -6,27 +6,21 @@ const ProtectedRoutes = ({ children }) => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  const validateToken = async () => {
-    try {
-      const response = await GetCurrentUser();
-      if (response.success) {
-        setUser(response.data);
-      } else {
-        navigate("/login");
-        message.error(response.message);
-      }
-    } catch (error) {
-      navigate("/login");
-      message.error(error.message);
-    }
-  };
-
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      validateToken();
-    } else {
-      navigate("/login");
-    }
+    const validateToken = async () => {
+      try {
+        const response = await GetCurrentUser();
+        if (response.success === false) {
+          navigate("/login");
+        } else {
+          setUser(response.data);
+        }
+      } catch (error) {
+        navigate("/login");
+        message.error(error.message);
+      }
+    };
+    validateToken();
   }, []);
   return (
     user && (
