@@ -29,14 +29,29 @@ const ProtectedRoutes = ({ children }) => {
     }
   }, []);
   return (
-    <div>
-      {user && (
-        <div className="p-5">
-          {user.name}
-          {children}
+    user && (
+      <div className="">
+        {/*  header */}
+
+        <div className="flex justify-between items-center bg-primary py-6">
+          <h1 className="text-white text-2xl">Fashion</h1>
+          <div className="bg-white py-2 px-5 rounded flex gap-1 items-center">
+            <i className="ri-shield-user-line"></i>
+            <span className="cursor-pointer underline">{user.name}</span>
+            <i
+              onClick={() => {
+                localStorage.removeItem("token");
+                navigate("/login");
+              }}
+              className="ri-logout-box-line"
+            ></i>
+          </div>
         </div>
-      )}
-    </div>
+
+        {/*  body */}
+        <div className="p-5">{children}</div>
+      </div>
+    )
   );
 };
 
