@@ -21,9 +21,9 @@ const Login = () => {
       const response = await LoginUser(values);
       dispatch(setLoader(false));
       if (response.success) {
-        message.success(response.message);
         localStorage.setItem("token", response.data);
         navigate("/");
+        message.success(response.message);
       } else {
         dispatch(setLoader(false));
         throw new Error(response.message);
@@ -34,11 +34,11 @@ const Login = () => {
     }
   };
 
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      navigate("/");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (localStorage.getItem("token")) {
+  //     navigate("/");
+  //   }
+  // }, []);
   return (
     <div className="h-screen bg-primary flex justify-center items-center">
       <div className="bg-white p-5 rounded w-[450px]">

@@ -21,7 +21,6 @@ const Register = () => {
       const response = await RegisterUser(values);
       dispatch(setLoader(false));
       if (response.success) {
-        navigate("/login");
         message.success(response.message);
       } else {
         dispatch(setLoader(false));

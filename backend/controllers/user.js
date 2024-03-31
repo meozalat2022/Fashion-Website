@@ -66,7 +66,7 @@ export const userLogin = async (req, res, next) => {
     });
   } catch (error) {
     res.send({
-      success: true,
+      success: false,
       message: error.message,
     });
   }

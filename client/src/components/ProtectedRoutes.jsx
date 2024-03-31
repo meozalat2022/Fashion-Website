@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { GetCurrentUser } from "../apicalls/users";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { setUsers } from "../redux/usersSlice";
 const ProtectedRoutes = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const { users } = useSelector((state) => state.users);
+  console.log(users);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   useEffect(() => {
     const validateToken = async () => {
       try {
@@ -13,7 +16,7 @@ const ProtectedRoutes = ({ children }) => {
         if (response.success === false) {
           navigate("/login");
         } else {
-          setUser(response.data);
+          dispatch(setUsers(response.data));
         }
       } catch (error) {
         navigate("/login");
@@ -23,7 +26,7 @@ const ProtectedRoutes = ({ children }) => {
     validateToken();
   }, []);
   return (
-    user && (
+    users && (
       <div className="">
         {/*  header */}
 
@@ -31,7 +34,7 @@ const ProtectedRoutes = ({ children }) => {
           <h1 className="text-white text-2xl">Fashion</h1>
           <div className="bg-white py-2 px-5 rounded flex gap-1 items-center">
             <i className="ri-shield-user-line"></i>
-            <span className="cursor-pointer underline">{user.name}</span>
+            <span className="cursor-pointer underline">{users.name}</span>
             <i
               onClick={() => {
                 localStorage.removeItem("token");
