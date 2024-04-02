@@ -1,6 +1,9 @@
-import { Col, Form, Input, Modal, Tabs, Row } from "antd";
+import { Col, Form, Input, Modal, Tabs, Row, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, { useRef } from "react";
+import { setLoader } from "../../../redux/loaderSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AddProduct } from "../../../apicalls/products";
 const formAdditions = [
   { label: "Bill Available", name: "billAvailable" },
   { label: "Warranty Available", name: "warrantyAvailable" },
@@ -10,10 +13,27 @@ const formAdditions = [
 
 const rules = [{ required: true, message: "required" }];
 const ProductsForm = ({ showProductForm, setShowProductForm }) => {
+  const { users } = useSelector((state) => state.users);
+  console.log(users);
   const formRef = useRef(null);
-
-  const onFinish = (values) => {
-    console.log(values);
+  const dispatch = useDispatch();
+  const onFinish = async (values) => {
+    try {
+      values.seller = users._id;
+      values.status = "pending";
+      dispatch(setLoader(true));
+      const response = await AddProduct(values);
+      dispatch(setLoader(false));
+      if (response.success) {
+        message.success(response.message);
+        setShowProductForm(false);
+      } else {
+        message.error(response.error);
+      }
+    } catch (error) {
+      dispatch(setLoader(false));
+      message.error(error.message);
+    }
   };
   return (
     <Modal
