@@ -61,7 +61,7 @@ const ProductsForm = ({ showProductForm, setShowProductForm }) => {
             </Row>
             <div className="flex gap-10">
               {formAdditions.map((item) => (
-                <Form.Item label={item.label} name={item.name}>
+                <Form.Item key={item.name} label={item.label} name={item.name}>
                   <Input
                     value={item.name}
                     onChange={(e) => {

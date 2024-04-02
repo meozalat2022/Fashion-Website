@@ -33,7 +33,7 @@ const ProtectedRoutes = ({ children }) => {
           <h1 className="text-white text-2xl">Fashion</h1>
           <div className="bg-white py-2 px-5 rounded flex gap-1 items-center">
             <i className="ri-shield-user-line"></i>
-            <span className="cursor-pointer underline">{users?.name}</span>
+            <span onClick={()=>navigate('/profile')} className="cursor-pointer underline">{users?.name}</span>
             <i
               onClick={() => {
                 localStorage.removeItem("token");
