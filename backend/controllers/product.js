@@ -35,3 +35,20 @@ export const getProducts = async (req, res, next) => {
     });
   }
 };
+
+//edit product
+
+export const editProduct = async (req, res, next) => {
+  try {
+    await Product.findByIdAndUpdate(req.params.id, req.body);
+    res.send({
+      success: true,
+      message: "Product Updated Successfully",
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      message: error.message,
+    });
+  }
+};

@@ -35,21 +35,22 @@ const Products = () => {
       },
     },
   ];
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        dispatch(setLoader(true));
-        const response = await GetProducts();
-        dispatch(setLoader(false));
 
-        if (response.success) {
-          setProducts(response.products);
-        }
-      } catch (error) {
-        dispatch(setLoader(false));
-        message.error(error.message);
+  const getData = async () => {
+    try {
+      dispatch(setLoader(true));
+      const response = await GetProducts();
+      dispatch(setLoader(false));
+
+      if (response.success) {
+        setProducts(response.products);
       }
-    };
+    } catch (error) {
+      dispatch(setLoader(false));
+      message.error(error.message);
+    }
+  };
+  useEffect(() => {
     getData();
   }, []);
   return (
@@ -65,6 +66,7 @@ const Products = () => {
           showProductForm={showProductForm}
           setShowProductForm={setShowProductForm}
           selectedProduct={selectedProduct}
+          getData={getData}
         />
       )}
     </div>

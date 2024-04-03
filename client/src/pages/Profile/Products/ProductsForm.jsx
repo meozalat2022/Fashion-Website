@@ -3,7 +3,7 @@ import TextArea from "antd/es/input/TextArea";
 import React, { useEffect, useRef } from "react";
 import { setLoader } from "../../../redux/loaderSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { AddProduct } from "../../../apicalls/products";
+import { AddProduct, editProduct } from "../../../apicalls/products";
 const formAdditions = [
   { label: "Bill Available", name: "billAvailable" },
   { label: "Warranty Available", name: "warrantyAvailable" },
@@ -16,19 +16,26 @@ const ProductsForm = ({
   showProductForm,
   setShowProductForm,
   selectedProduct,
+  getData,
 }) => {
   const { users } = useSelector((state) => state.users);
   const formRef = useRef(null);
   const dispatch = useDispatch();
   const onFinish = async (values) => {
     try {
-      values.seller = users._id;
-      values.status = "pending";
+      let response = null;
       dispatch(setLoader(true));
-      const response = await AddProduct(values);
+      if (selectedProduct) {
+        response = await editProduct(selectedProduct._id, values);
+      } else {
+        values.seller = users._id;
+        values.status = "pending";
+        await AddProduct(values);
+      }
       dispatch(setLoader(false));
       if (response.success) {
         message.success(response.message);
+        getData();
         setShowProductForm(false);
       } else {
         message.error(response.error);

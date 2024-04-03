@@ -24,3 +24,17 @@ export const GetProducts = async () => {
     return error.message;
   }
 };
+
+//edit product
+
+export const editProduct = async (id, payload) => {
+  try {
+    const response = await axiosInstance.put(
+      `/api/products/editProduct/${id}`,
+      payload
+    );
+    return response.data;
+  } catch (error) {
+    return error.message;
+  }
+};
