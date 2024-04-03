@@ -29,3 +29,7 @@ button {
   height: 45px !important;
   box-shadow: none !important;
 }
+
+i {
+  font-size: 20px !important;
+}

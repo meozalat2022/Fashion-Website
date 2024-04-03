@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoader } from "../../../redux/loaderSlice";
 import { GetProducts } from "../../../apicalls/products";
 const Products = () => {
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
   const [showProductForm, setShowProductForm] = useState(false);
@@ -15,9 +16,25 @@ const Products = () => {
     { title: "Category", dataIndex: "category" },
     { title: "Age", dataIndex: "age" },
     { title: "Status", dataIndex: "status" },
-    { title: "Action", dataIndex: "action" },
+    {
+      title: "Action",
+      dataIndex: "action",
+      render: (text, record) => {
+        return (
+          <div className="flex gap-5">
+            <i
+              className="ri-pencil-line"
+              onClick={() => {
+                setSelectedProduct(record);
+                setShowProductForm(true);
+              }}
+            ></i>
+            <i className="ri-delete-bin-line"></i>
+          </div>
+        );
+      },
+    },
   ];
-  console.log(products);
   useEffect(() => {
     const getData = async () => {
       try {
@@ -47,6 +64,7 @@ const Products = () => {
         <ProductsForm
           showProductForm={showProductForm}
           setShowProductForm={setShowProductForm}
+          selectedProduct={selectedProduct}
         />
       )}
     </div>
