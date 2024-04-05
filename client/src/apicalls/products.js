@@ -27,11 +27,24 @@ export const GetProducts = async () => {
 
 //edit product
 
-export const editProduct = async (id, payload) => {
+export const EditProduct = async (id, payload) => {
   try {
     const response = await axiosInstance.put(
       `/api/products/editProduct/${id}`,
       payload
+    );
+    return response.data;
+  } catch (error) {
+    return error.message;
+  }
+};
+
+//delete product
+
+export const DeleteProduct = async (id) => {
+  try {
+    const response = await axiosInstance.delete(
+      `/api/products/deleteProduct/${id}`
     );
     return response.data;
   } catch (error) {

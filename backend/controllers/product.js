@@ -22,7 +22,7 @@ export const addProduct = async (req, res, next) => {
 
 export const getProducts = async (req, res, next) => {
   try {
-    const products = await Product.find({});
+    const products = await Product.find({}).sort({ createdAt: -1 });
 
     res.send({
       success: true,
@@ -44,6 +44,23 @@ export const editProduct = async (req, res, next) => {
     res.send({
       success: true,
       message: "Product Updated Successfully",
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+//delete Product
+
+export const deleteProduct = async (req, res, next) => {
+  try {
+    await Product.findByIdAndDelete(req.params.id);
+    res.send({
+      success: true,
+      message: "Product Deleted successfully",
     });
   } catch (error) {
     res.send({

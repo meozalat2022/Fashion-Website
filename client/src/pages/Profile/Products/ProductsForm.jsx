@@ -3,7 +3,7 @@ import TextArea from "antd/es/input/TextArea";
 import React, { useEffect, useRef } from "react";
 import { setLoader } from "../../../redux/loaderSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { AddProduct, editProduct } from "../../../apicalls/products";
+import { AddProduct, EditProduct } from "../../../apicalls/products";
 const formAdditions = [
   { label: "Bill Available", name: "billAvailable" },
   { label: "Warranty Available", name: "warrantyAvailable" },
@@ -26,11 +26,11 @@ const ProductsForm = ({
       let response = null;
       dispatch(setLoader(true));
       if (selectedProduct) {
-        response = await editProduct(selectedProduct._id, values);
+        response = await EditProduct(selectedProduct._id, values);
       } else {
         values.seller = users._id;
         values.status = "pending";
-        await AddProduct(values);
+        response = await AddProduct(values);
       }
       dispatch(setLoader(false));
       if (response.success) {
