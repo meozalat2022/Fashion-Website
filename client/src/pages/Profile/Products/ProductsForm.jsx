@@ -1,9 +1,10 @@
 import { Col, Form, Input, Modal, Tabs, Row, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { setLoader } from "../../../redux/loaderSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AddProduct, EditProduct } from "../../../apicalls/products";
+import Images from "./Images";
 const formAdditions = [
   { label: "Bill Available", name: "billAvailable" },
   { label: "Warranty Available", name: "warrantyAvailable" },
@@ -18,6 +19,7 @@ const ProductsForm = ({
   selectedProduct,
   getData,
 }) => {
+  const [selectedTab, setSelectedTab] = useState("1");
   const { users } = useSelector((state) => state.users);
   const formRef = useRef(null);
   const dispatch = useDispatch();
@@ -62,12 +64,17 @@ const ProductsForm = ({
       onOk={() => {
         formRef.current.submit();
       }}
+      {...(selectedTab === "2" && { footer: false })}
     >
       <div>
         <h1 className="text-2xl text-center text-primary font-semibold">
           {selectedProduct ? "Edit Product" : "Add product"}
         </h1>
-        <Tabs defaultActiveKey="1">
+        <Tabs
+          defaultActiveKey="1"
+          activeKey={selectedTab}
+          onChange={(key) => setSelectedTab(key)}
+        >
           <Tabs.TabPane tab="General" key="1">
             <Form onFinish={onFinish} ref={formRef} layout="vertical">
               <Form.Item rules={rules} label="Name" name="name">
@@ -122,8 +129,13 @@ const ProductsForm = ({
               </div>
             </Form>
           </Tabs.TabPane>
-          <Tabs.TabPane tab="Images" key="2">
-            <h1>Images</h1>
+          <Tabs.TabPane disabled={!selectedProduct} tab="Images" key="2">
+            <Images
+              showProductForm={showProductForm}
+              getData={getData}
+              selectedProduct={selectedProduct}
+              setShowProductForm={setShowProductForm}
+            />
           </Tabs.TabPane>
         </Tabs>
       </div>

@@ -1,3 +1,4 @@
+import cloudinary from "../config/cloudinaryConfig.js";
 import Product from "../models/product.js";
 
 //add new product
@@ -61,6 +62,30 @@ export const deleteProduct = async (req, res, next) => {
     res.send({
       success: true,
       message: "Product Deleted successfully",
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const uploadImages = async (req, res, next) => {
+  try {
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: "Fashion",
+    });
+
+    const productId = req.body.productId;
+
+    await Product.findByIdAndUpdate(productId, {
+      $push: { images: result.secure_url },
+    });
+    res.send({
+      success: true,
+      message: "Images uploaded successfully",
+      result,
     });
   } catch (error) {
     res.send({

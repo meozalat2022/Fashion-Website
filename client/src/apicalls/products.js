@@ -51,3 +51,17 @@ export const DeleteProduct = async (id) => {
     return error.message;
   }
 };
+
+//uploadImages
+export const UploadImages = async (payload) => {
+  // console.log("api calls", payload)
+  try {
+    const response = await axiosInstance.post(
+      "/api/products/uploadImage",
+      payload
+    );
+    return response.data;
+  } catch (error) {
+    return error.message;
+  }
+};
