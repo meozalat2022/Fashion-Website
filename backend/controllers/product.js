@@ -85,7 +85,7 @@ export const uploadImages = async (req, res, next) => {
     res.send({
       success: true,
       message: "Images uploaded successfully",
-      result,
+      data: result.secure_url,
     });
   } catch (error) {
     res.send({

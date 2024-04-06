@@ -12,6 +12,8 @@ const Images = ({
 }) => {
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
+  const [images, setImages] = useState(selectedProduct.images);
+  const [showPreview, setShowPreview] = useState(true);
   const upload = async () => {
     try {
       dispatch(setLoader(true));
@@ -23,6 +25,8 @@ const Images = ({
 
       if (response.success) {
         message.success(response.message);
+        setImages([...images, response.data]);
+        setShowPreview(false);
         getData();
         // dispatch(setLoader(false));
       } else {
@@ -37,9 +41,24 @@ const Images = ({
     <div>
       <Upload
         listType="picture"
-        onChange={(info) => setFile(info.file)}
+        onChange={(info) => {
+          setFile(info.file);
+          setShowPreview(true);
+        }}
         beforeUpload={() => false}
+        showUploadList={showPreview}
       >
+        <div className="flex gap-5 mb-5">
+          {images.map((image) => (
+            <div className="flex gap-2 border border-solid border-slate-500 rounded p-2 items-end">
+              <img className="h-20 w-20 object-cover" src={image} alt="" />
+              <i
+                // onClick={() => ()}
+                className="ri-delete-bin-line"
+              ></i>
+            </div>
+          ))}
+        </div>
         <Button type="dashed">Upload Images</Button>
       </Upload>
       <div className="flex justify-end gap-5">
