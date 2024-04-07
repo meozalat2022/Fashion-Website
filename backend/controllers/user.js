@@ -41,6 +41,12 @@ export const userLogin = async (req, res, next) => {
       throw new Error("User not found");
     }
 
+    //check user status
+
+    if (user.status !== "active") {
+      throw new Error("Your Account is blocked, please contact admin");
+    }
+
     // compare password
 
     const validPassword = await bcrypt.compare(
@@ -79,6 +85,42 @@ export const getUser = async (req, res, next) => {
       success: true,
       message: "User found successfully",
       data: user,
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+//get all users
+
+export const getUsers = async (req, res, next) => {
+  try {
+    const users = await User.find({});
+
+    res.send({
+      success: true,
+      message: "Users found successfully",
+      data: users,
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+//update user status
+
+export const userStatusUpdate = async (req, res, next) => {
+  try {
+    await User.findByIdAndUpdate(req.params.id, req.body);
+    res.send({
+      success: true,
+      message: "Status Updated Successfully",
     });
   } catch (error) {
     res.send({

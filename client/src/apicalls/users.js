@@ -30,3 +30,28 @@ export const GetCurrentUser = async () => {
     return error.message;
   }
 };
+
+// get all users
+
+export const GetAllUsers = async () => {
+  try {
+    const response = await axiosInstance.get("/api/users/getAllUsers");
+    return response.data;
+  } catch (error) {
+    return error.message;
+  }
+};
+
+//update user status
+
+export const UpdateUserStatus = async (id, status) => {
+  try {
+    const response = await axiosInstance.put(
+      `/api/users/updateUserStatus/${id}`,
+      { status }
+    );
+    return response.data;
+  } catch (error) {
+    return error.message;
+  }
+};
