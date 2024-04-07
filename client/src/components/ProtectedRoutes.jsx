@@ -12,10 +12,10 @@ const ProtectedRoutes = ({ children }) => {
     const validateToken = async () => {
       try {
         const response = await GetCurrentUser();
-        if (response.success === false) {
-          navigate("/login");
-        } else {
+        if (response.success) {
           dispatch(setUsers(response.data));
+        } else {
+          navigate("/login");
         }
       } catch (error) {
         navigate("/login");
@@ -48,7 +48,7 @@ const ProtectedRoutes = ({ children }) => {
               }}
               className="cursor-pointer underline"
             >
-              {users?.name}
+              {users && users?.name}
             </span>
             <i
               onClick={() => {

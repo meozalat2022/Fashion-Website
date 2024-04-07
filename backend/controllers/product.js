@@ -34,7 +34,7 @@ export const getProducts = async (req, res, next) => {
 
     res.send({
       success: true,
-      products,
+      data: products,
     });
   } catch (error) {
     res.send({
@@ -111,6 +111,23 @@ export const updateStatus = async (req, res, next) => {
     res.send({
       success: true,
       message: "Status updated successfully",
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+//get single product
+
+export const getProduct = async (req, res, next) => {
+  try {
+    const product = await Product.findById(req.params.id).populate("seller");
+    res.send({
+      success: true,
+      data: product,
     });
   } catch (error) {
     res.send({

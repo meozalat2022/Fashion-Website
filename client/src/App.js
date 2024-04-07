@@ -7,6 +7,7 @@ import Spinner from "./components/Spinner";
 import { useSelector } from "react-redux";
 import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
+import ProductInfo from "./pages/ProductInfo";
 
 function App() {
   const { loader } = useSelector((state) => state.loading);
@@ -28,6 +29,14 @@ function App() {
             element={
               <ProtectedRoutes>
                 <Profile />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/product/:id"
+            element={
+              <ProtectedRoutes>
+                <ProductInfo />
               </ProtectedRoutes>
             }
           />

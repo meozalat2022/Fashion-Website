@@ -81,3 +81,15 @@ export const UpdateProductStatus = async (id, status) => {
     return error.message;
   }
 };
+
+//get single product
+
+export const GetSingleProduct = async (id) => {
+  console.log("api calls", id);
+  try {
+    const response = await axiosInstance.get(`/api/products/getProduct/${id}`);
+    return response.data;
+  } catch (error) {
+    return error.message;
+  }
+};
