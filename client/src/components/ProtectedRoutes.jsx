@@ -30,11 +30,22 @@ const ProtectedRoutes = ({ children }) => {
         {/*  header */}
 
         <div className="flex justify-between items-center bg-primary py-6">
-          <h1 className="text-white text-2xl">Fashion</h1>
+          <h1
+            onClick={() => navigate("/")}
+            className="text-white text-2xl cursor-pointer"
+          >
+            Fashion
+          </h1>
           <div className="bg-white py-2 px-5 rounded flex gap-1 items-center">
             <i className="ri-shield-user-line"></i>
             <span
-              onClick={() => navigate("/profile")}
+              onClick={() => {
+                if (users?.role === "user") {
+                  navigate("/profile");
+                } else {
+                  navigate("/admin");
+                }
+              }}
               className="cursor-pointer underline"
             >
               {users?.name}

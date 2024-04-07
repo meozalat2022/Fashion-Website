@@ -11,7 +11,7 @@ import multer from "multer";
 const router = express.Router();
 
 router.post("/add-product", authVerification, addProduct);
-router.get("/get-products", getProducts);
+router.post("/get-products", getProducts);
 router.put("/editProduct/:id", editProduct);
 router.delete("/deleteProduct/:id", authVerification, deleteProduct);
 

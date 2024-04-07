@@ -23,7 +23,14 @@ export const addProduct = async (req, res, next) => {
 
 export const getProducts = async (req, res, next) => {
   try {
-    const products = await Product.find({}).sort({ createdAt: -1 });
+    const { seller, category = [], age = [] } = req.body;
+    let filters = {};
+    if (seller) {
+      filters.seller = seller;
+    }
+    const products = await Product.find(filters)
+      .populate("seller")
+      .sort({ createdAt: -1 });
 
     res.send({
       success: true,

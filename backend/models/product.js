@@ -49,7 +49,7 @@ const productSchema = new Schema(
     },
     seller: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
+      ref: "User",
     },
     status: {
       type: String,

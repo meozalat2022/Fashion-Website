@@ -10,7 +10,7 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
   const [showProductForm, setShowProductForm] = useState(false);
-
+  const { users } = useSelector((state) => state.users);
   const deleteProduct = async (id) => {
     try {
       dispatch(setLoader(true));
@@ -66,7 +66,9 @@ const Products = () => {
   const getData = async () => {
     try {
       dispatch(setLoader(true));
-      const response = await GetProducts();
+      const response = await GetProducts({
+        seller: users._id,
+      });
       dispatch(setLoader(false));
 
       if (response.success) {
