@@ -101,3 +101,21 @@ export const uploadImages = async (req, res, next) => {
     });
   }
 };
+
+//update product status
+
+export const updateStatus = async (req, res, next) => {
+  try {
+    const { status } = req.body;
+    await Product.findByIdAndUpdate(req.params.id, { status });
+    res.send({
+      success: true,
+      message: "Status updated successfully",
+    });
+  } catch (error) {
+    res.send({
+      success: false,
+      message: error.message,
+    });
+  }
+};

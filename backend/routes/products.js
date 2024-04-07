@@ -6,6 +6,7 @@ import {
   getProducts,
   deleteProduct,
   uploadImages,
+  updateStatus,
 } from "../controllers/product.js";
 import multer from "multer";
 const router = express.Router();
@@ -29,4 +30,8 @@ router.post(
   multer({ storage: storage }).single("file"),
   uploadImages
 );
+
+// update product status
+
+router.put("/updateProductStatus/:id", authVerification, updateStatus);
 export default router;
