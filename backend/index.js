@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 
 import userRoutes from "./routes/user.js";
 import productsRoutes from "./routes/products.js";
+import bidsRoutes from "./routes/bid.js";
 const app = express();
 app.use(express.json());
 const port = process.env.PORT || 8080;
@@ -17,6 +18,7 @@ mongoose
   })
   .catch((err) => console.log(err));
 
+app.use("/api/bids", bidsRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/products", productsRoutes);
 app.listen(port, () => console.log(`Server is running on port${port}`));

@@ -7,7 +7,6 @@ import moment from "moment";
 import { GetAllUsers, UpdateUserStatus } from "../../apicalls/users";
 const Users = () => {
   const [users, setUsers] = useState([]);
-  console.log(users);
   const dispatch = useDispatch();
   const columns = [
     { title: "Name", dataIndex: "name" },

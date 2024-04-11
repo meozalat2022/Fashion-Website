@@ -127,6 +127,24 @@ const ProductsForm = ({
                   </Form.Item>
                 ))}
               </div>
+              <Form.Item
+                label="Show Bids on Product Page"
+                name="showBidOnProductPage"
+                valuePropName="checked"
+              >
+                <Input
+                  onChange={(e) => {
+                    formRef.current.setFieldsValue({
+                      showBidsOnProductPage: e.target.checked,
+                    });
+                  }}
+                  checked={formRef.current?.getFieldsValue(
+                    "showBidOnProductPage"
+                  )}
+                  type="checkbox"
+                  style={{ width: 50 }}
+                />
+              </Form.Item>
             </Form>
           </Tabs.TabPane>
           <Tabs.TabPane disabled={!selectedProduct} tab="Images" key="2">

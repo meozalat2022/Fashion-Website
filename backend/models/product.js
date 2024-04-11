@@ -32,6 +32,10 @@ const productSchema = new Schema(
       default: false,
       required: true,
     },
+    showBidOnProductPage: {
+      type: Boolean,
+      default: false,
+    },
     warrantyAvailable: {
       type: Boolean,
       default: false,
