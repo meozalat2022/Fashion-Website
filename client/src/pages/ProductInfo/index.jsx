@@ -107,6 +107,13 @@ const ProductInfo = () => {
                 <span>Warranty Available</span>
                 <span>{product?.warrantyAvailable ? "Yes" : "No"}</span>
               </div>
+              <div className="flex justify-between mt-2">
+                <span>Purchased Year</span>
+                <span>
+                  {moment().subtract(product?.age, "years").format("YYYY")} (
+                  {product?.age}Years Ago)
+                </span>
+              </div>
             </div>
             <Divider />
 

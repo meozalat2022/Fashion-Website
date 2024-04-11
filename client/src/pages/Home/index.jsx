@@ -36,9 +36,6 @@ const Home = () => {
 
   useEffect(() => {
     getData();
-  }, []);
-  useEffect(() => {
-    console.log(filters);
   }, [filters]);
   return (
     <div className="flex gap-5">
@@ -51,7 +48,7 @@ const Home = () => {
         />
       )}
 
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-5 w-full">
         <div className="flex gap-5 items-center">
           {!showFilters && (
             <i
@@ -61,7 +58,7 @@ const Home = () => {
           )}
           <input
             placeholder="Search Product"
-            className="border border-solid border-gray-300 w-full p-2 h-14"
+            className=" border border-solid border-gray-300 w-full p-2 h-14"
           />
         </div>
         <div
