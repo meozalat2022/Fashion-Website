@@ -101,14 +101,14 @@ const ProtectedRoutes = ({ children }) => {
                 icon={<i className="ri-notification-3-line"></i>}
               />
             </Badge>
-            <i className="ri-shield-user-line ml-4"></i>
-            {/* <i
+            {/* <i className="ri-shield-user-line ml-4"></i> */}
+            <i
               onClick={() => {
                 localStorage.removeItem("token");
                 navigate("/login");
               }}
               className="ri-logout-box-line"
-            ></i> */}
+            ></i>
           </div>
         </div>
 

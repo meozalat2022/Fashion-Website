@@ -1,5 +1,7 @@
 import cloudinary from "../config/cloudinaryConfig.js";
 import Product from "../models/product.js";
+import User from "../models/user.js";
+import Notification from "../models/notification.js";
 
 //add new product
 
@@ -7,6 +9,20 @@ export const addProduct = async (req, res, next) => {
   try {
     const product = new Product(req.body);
     await product.save();
+
+    //send notification to admins
+
+    const admins = await User.find({ role: "admin" });
+    admins.forEach(async (admin) => {
+      const notification = new Notification({
+        title: "New Product Placed",
+        message: `New Product added by ${admin._id}`,
+        onClick: "/admin",
+        user: admin._id,
+        read: false,
+      });
+      await notification.save();
+    });
     res.send({
       success: true,
       message: "Product added successfully",
@@ -126,7 +142,19 @@ export const uploadImages = async (req, res, next) => {
 export const updateStatus = async (req, res, next) => {
   try {
     const { status } = req.body;
-    await Product.findByIdAndUpdate(req.params.id, { status });
+    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, {
+      status,
+    });
+    // send notification to seller
+
+    const notification = new Notification({
+      title: `Your Product ${updatedProduct.name} has been ${status}`,
+      message: "Your product is updated",
+      onClick: "/profile",
+      user: updatedProduct.seller,
+      read: false,
+    });
+    await notification.save();
     res.send({
       success: true,
       message: "Status updated successfully",

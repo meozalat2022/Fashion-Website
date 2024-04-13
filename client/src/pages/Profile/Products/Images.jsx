@@ -47,6 +47,7 @@ const Images = ({
       if (response.success) {
         message.success(response.message);
         setImages(updatedImageArray);
+        setFile(null);
         getData();
       } else {
         throw new Error(response.message);
@@ -77,6 +78,7 @@ const Images = ({
         }}
         beforeUpload={() => false}
         showUploadList={showPreview}
+        fileList={file ? [file] : []}
       >
         <Button type="dashed">Upload Images</Button>
       </Upload>
