@@ -72,8 +72,7 @@ const ProtectedRoutes = ({ children }) => {
           >
             Fashion
           </h1>
-          <div className="bg-white py-2 px-5 rounded flex gap-1 items-center">
-            <i className="ri-shield-user-line"></i>
+          <div className="bg-white py-2 px-5 rounded flex gap-1 items-center jus">
             <span
               onClick={() => {
                 if (users?.role === "user") {
@@ -102,6 +101,7 @@ const ProtectedRoutes = ({ children }) => {
                 icon={<i className="ri-notification-3-line"></i>}
               />
             </Badge>
+            <i className="ri-shield-user-line ml-4"></i>
             {/* <i
               onClick={() => {
                 localStorage.removeItem("token");
