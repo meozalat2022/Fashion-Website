@@ -149,7 +149,7 @@ const ProductInfo = () => {
                 </Button>
               </div>
               {product.showBidOnProductPage &&
-                product.bids.map((item) => (
+                product?.bids?.map((item) => (
                   <div className="border border-gray-300 border-solid p-3 rounded mt-5 ">
                     <div className="flex justify-between  text-gray-600">
                       <span>Name</span>

@@ -21,7 +21,7 @@ export const addNewBid = async (req, res, next) => {
 
 export const getAllBids = async (req, res, next) => {
   try {
-    const { product, seller } = req.body;
+    const { product, seller, buyer } = req.body;
 
     let filter = {};
     if (product) {
@@ -30,6 +30,9 @@ export const getAllBids = async (req, res, next) => {
 
     if (seller) {
       filter.seller = seller;
+    }
+    if (buyer) {
+      filter.buyer = buyer;
     }
     const bids = await Bid.find(filter)
       .populate("product")
