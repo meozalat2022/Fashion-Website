@@ -34,7 +34,8 @@ export const getAllBids = async (req, res, next) => {
     const bids = await Bid.find(filter)
       .populate("product")
       .populate("buyer")
-      .populate("seller");
+      .populate("seller")
+      .sort({ createdAt: -1 });
 
     res.send({
       success: true,

@@ -1,13 +1,48 @@
 import React, { useState, useEffect } from "react";
 import { GetCurrentUser } from "../apicalls/users";
-import { message } from "antd";
+import { Avatar, Badge, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setUsers } from "../redux/usersSlice";
+import Notifications from "./Notifications";
+import { setLoader } from "../redux/loaderSlice";
+import {
+  GetAllNotifications,
+  ReadNotifications,
+} from "../apicalls/notifications";
 const ProtectedRoutes = ({ children }) => {
+  const [notifications, setNotifications] = useState([]);
+  const [showNotifications, setShowNotifications] = useState(false);
   const { users } = useSelector((state) => state.users);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const getNotifications = async () => {
+    try {
+      const response = await GetAllNotifications();
+      if (response.success) {
+        setNotifications(response.data);
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      message.error(error.message);
+    }
+  };
+
+  const readNotification = async () => {
+    try {
+      const response = await ReadNotifications();
+      if (response.success) {
+        getNotifications();
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      message.error(error.message);
+    }
+  };
+
   useEffect(() => {
     const validateToken = async () => {
       try {
@@ -23,6 +58,7 @@ const ProtectedRoutes = ({ children }) => {
       }
     };
     validateToken();
+    getNotifications();
   }, []);
   return (
     users && (
@@ -50,18 +86,43 @@ const ProtectedRoutes = ({ children }) => {
             >
               {users && users?.name}
             </span>
-            <i
+            <Badge
+              count={
+                notifications?.filter((notification) => !notification.read)
+                  .length
+              }
+              onClick={() => {
+                readNotification();
+                setShowNotifications(true);
+              }}
+              className="cursor-pointer"
+            >
+              <Avatar
+                shape="circle"
+                icon={<i className="ri-notification-3-line"></i>}
+              />
+            </Badge>
+            {/* <i
               onClick={() => {
                 localStorage.removeItem("token");
                 navigate("/login");
               }}
               className="ri-logout-box-line"
-            ></i>
+            ></i> */}
           </div>
         </div>
 
         {/*  body */}
         <div className="p-5">{children}</div>
+
+        {/* notification modal */}
+
+        <Notifications
+          notifications={notifications}
+          reloadNotifications={getNotifications}
+          showNotifications={showNotifications}
+          setShowNotifications={setShowNotifications}
+        />
       </div>
     )
   );
