@@ -65,12 +65,12 @@ const ProtectedRoutes = ({ children }) => {
       <div className="">
         {/*  header */}
 
-        <div className="flex justify-between items-center bg-primary py-6">
+        <div className="flex justify-between items-center bg-primary py-6 px-4">
           <h1
             onClick={() => navigate("/")}
             className="text-white text-2xl cursor-pointer"
           >
-            Fashion
+            My Shop
           </h1>
           <div className="bg-white py-2 px-5 rounded flex gap-1 items-center jus">
             <span
