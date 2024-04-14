@@ -8,6 +8,8 @@ import Divider from "../../components/Divider";
 import Filters from "./Filters";
 const Home = () => {
   const [showFilters, setShowFilters] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [products, setProducts] = useState([]);
@@ -37,6 +39,14 @@ const Home = () => {
   useEffect(() => {
     getData();
   }, [filters]);
+
+  const searchedProduct = products.filter((val) => {
+    if (searchTerm == "") {
+      return val;
+    } else if (val.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+      return val;
+    }
+  });
   return (
     <div className="flex gap-5">
       {showFilters && (
@@ -57,8 +67,10 @@ const Home = () => {
             ></i>
           )}
           <input
+            value={searchTerm}
             placeholder="Search Product"
             className=" border border-solid border-gray-300 w-full p-2 h-14"
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
         <div
@@ -66,8 +78,8 @@ const Home = () => {
             showFilters ? "grid-cols-4" : "grid-cols-5"
           }`}
         >
-          {products &&
-            products.map((item) => (
+          {searchedProduct &&
+            searchedProduct.map((item) => (
               <div
                 onClick={() => navigate(`/product/${item._id}`)}
                 className=" cursor-pointer border border-solid border-gray-300 flex flex-col rounded gap-2 pb-2"
