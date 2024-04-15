@@ -8,7 +8,7 @@ import bidsRoutes from "./routes/bid.js";
 import notificationsRoutes from "./routes/notification.js";
 const app = express();
 app.use(express.json());
-const port = process.env.PORT || 8080;
+// const port = process.env.PORT || 8080;
 const __dirname = path.resolve();
 
 // pre deployment
@@ -26,9 +26,9 @@ mongoose
     console.log("Connected to MongoDB");
   })
   .catch((err) => console.log(err));
+app.listen(8080, () => console.log(`Server is running on port`));
 
 app.use("/api/bids", bidsRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/products", productsRoutes);
 app.use("/api/notifications", notificationsRoutes);
-app.listen(port, () => console.log(`Server is running on port${port}`));
