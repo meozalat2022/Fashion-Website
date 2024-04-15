@@ -13,12 +13,10 @@ const __dirname = path.resolve();
 
 // deployment
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "/client/dist")));
-  app.get((req, res, next) => {
-    res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
-  });
-}
+app.use(express.static(path.join(__dirname, "/client/dist")));
+app.get((req, res, next) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
 
 dotenv.config();
 
