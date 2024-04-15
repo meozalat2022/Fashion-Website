@@ -11,7 +11,7 @@ app.use(express.json());
 const port = process.env.PORT || 8080;
 const __dirname = path.resolve();
 
-// deployment
+// pre deployment
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
 app.get((req, res, next) => {
