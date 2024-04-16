@@ -30,6 +30,19 @@ const ProtectedRoutes = ({ children }) => {
     }
   };
 
+  const handleSignOut = async () => {
+    try {
+      dispatch(setLoader(true));
+      const res = await fetch("/api/users/signOut");
+      dispatch(setLoader(false));
+      navigate('/login')
+      const data = await res.json();
+    } catch (error) {
+      dispatch(setLoader(false));
+      console.log(error);
+    }
+  };
+
   const readNotification = async () => {
     try {
       const response = await ReadNotifications();
@@ -102,13 +115,7 @@ const ProtectedRoutes = ({ children }) => {
               />
             </Badge>
             {/* <i className="ri-shield-user-line ml-4"></i> */}
-            <i
-              onClick={() => {
-                localStorage.removeItem("token");
-                navigate("/login");
-              }}
-              className="ri-logout-box-line"
-            ></i>
+            <i onClick={handleSignOut} className="ri-logout-box-line"></i>
           </div>
         </div>
 

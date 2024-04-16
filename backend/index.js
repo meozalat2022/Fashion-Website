@@ -6,13 +6,15 @@ import userRoutes from "./routes/user.js";
 import productsRoutes from "./routes/products.js";
 import bidsRoutes from "./routes/bid.js";
 import notificationsRoutes from "./routes/notification.js";
+import cookieParser from "cookie-parser";
+
 const app = express();
 app.use(express.json());
 // const port = process.env.PORT || 8080;
 const __dirname = path.resolve();
 
 // pre deployment
-
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "/client/build")));
 app.get((req, res, next) => {
   res.sendFile(path.join(__dirname, "client", "build", "index.html"));

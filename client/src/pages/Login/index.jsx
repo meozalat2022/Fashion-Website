@@ -18,16 +18,21 @@ const Login = () => {
   const onFinish = async (values) => {
     try {
       dispatch(setLoader(true));
-      const response = await LoginUser(values);
+      const response = await fetch("/api/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+      const data = await response.json();
       dispatch(setLoader(false));
-      if (response.success) {
-        localStorage.setItem("token", response.data);
-        navigate("/");
-        message.success(response.message);
-      } else {
-        dispatch(setLoader(false));
-        throw new Error(response.message);
-      }
+      navigate("/");
+      // if (response.success) {
+      //   localStorage.setItem("token", data);
+      //   message.success(response.message);
+      // } else {
+      //   dispatch(setLoader(false));
+      //   throw new Error(response.message);
+      // }
     } catch (error) {
       dispatch(setLoader(false));
       message.error(error.message);
